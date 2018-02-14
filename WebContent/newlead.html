@@ -1,0 +1,42 @@
+<br>
+<p>Search:</p><input type="text" ng-model="searchTxt">
+<button class="btn btn-primary export-btn"  ng-click="exportData()">Excel Download</button>
+<div id="exportable" >
+            
+<table class="table table-striped"  >
+<thead>
+<tr>
+<th>Lead Id</th>
+<th>Mobile No</th>
+<th>Firstname</th>
+<th>Area</th>
+<th>City</th>
+<th>Pincode</th>
+<th>State</th>
+<th>Leadcreated date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody >
+<tr dir-paginate="client in newlead | filter:searchTxt | itemsPerPage:15">
+<td>{{client.lead_id}}</td>
+<td>{{client.clientid}}</td>
+<td>{{client.firstName}}</td>
+<td>{{client.areaName}}</td>
+<td>{{client.cityname}}</td>
+<td>{{client.pincode}}</td>
+<td>{{client.statename}}</td>
+<td>{{client.lead_created_date}}</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+ <dir-pagination-controls
+            max-size="10"
+            direction-links="true"
+            boundary-links="true" >
+        </dir-pagination-controls>
+        </div>
+ 
+<a href="#!/home">Home</a>
+

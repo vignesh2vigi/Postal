@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Postal</title>
+
+<meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="images/logo-icon.png" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+ <link href="css/style.css" rel="stylesheet" />
+
+  
+</head>
+<body ng-app="app">
+<nav class="navbar navbar-inverse" ng-show="currentClient.clientname">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Postal</a>
+    </div>
+    <ul class="nav navbar-nav">
+      
+      <li class="active"><a href="#!/home" ng-show="currentClient.clientname">Dash board</a></li>
+      <li><a href="#!/excel" ng-show="currentClient.clientname">Upload lead</a></li>
+      <li><a href="#!/getlist" ng-show="currentClient.clientname">New lead</a></li>
+      <li><a href="#!/getatelist" ng-show="currentClient.clientname">Assign leads</a></li>
+       <li><a href="#!/complete" ng-show="currentClient.clientname">Complete leads</a></li>
+       <li><a href="#!/bill" ng-show="currentClient.clientname">Billing</a></li>
+       <li><a href="#!/billup"ng-show="currentClient.clientname">Billing update</a></li>
+      <li><a href="" ng-show="currentClient.clientname"> Welcome {{currentClient.clientname}}</a></li>
+      <li><a href="#!/logout" ng-show="currentClient.clientname" ng-click="logout()">Logout</a></li>
+      <li><a href="#!/login" ng-hide="currentClient.clientname">Login</a></li>
+    </ul>
+  </div> 
+</nav>
+<div  ng-view></div>
+<div class="footer navbar-fixed-bottom" ng-show="currentClient.clientname">
+				<span>
+				Copyright @ postal.com. All Rights Reserved			
+				</span>
+		</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/dirPagination.js"></script>
+<script type="text/javascript" src="js/excel.js"></script>
+
+<script type="text/javascript" src="controller/clientcontroller.js"></script>
+<script type="text/javascript" src="service/clientservice.js"></script>
+<script type="text/javascript" src="controller/dashcontroller.js"></script>
+<script type="text/javascript" src="service/dashservice.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+</html>

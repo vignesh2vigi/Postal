@@ -1,0 +1,51 @@
+<br>
+<p>Search:</p><input type="text" ng-model="searchTxt">
+<button class="btn btn-primary export-btn"  ng-click="exportData()">Excel Download</button>
+<div id="exportable">
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Lead Id</th>
+<th>Mobile No</th>
+<th>Customer name</th>
+<th>Area</th>
+<th>City</th>
+<th>Pin code</th>
+<th>State</th>
+<th>Lead created date</th>
+<th>Verify date</th>
+<th>approve date</th>
+<th>Assigning to</th>
+<th>Remarks</th>
+<th>Verify Status</th>
+<th>Approve Status</th>
+<th>billing</th>
+</tr>
+</thead>
+<tbody >
+<tr dir-paginate="client in complete | filter:searchTxt | itemsPerPage:15">
+<td>{{client.lead_id}}</td>
+<td>{{client.clientid}}</td>
+<td>{{client.firstName}}</td>
+<td>{{client.areaName}}</td>
+<td>{{client.cityname}}</td>
+<td>{{client.pincode}}</td>
+<td>{{client.state}}</td>
+<td>{{client.lead_created_date}}</td>
+<td>{{client.lead_verified_date}}</td>
+<td>{{client.lead_approved_date}}</td>
+<td>{{client.lead_assigned_to}}</td>
+<td>{{client.rmarks}}</td>
+<td>{{client.leadst}}</td>
+<td>{{client.approve}}</td>
+<td>{{client.billv}}</td>
+</tr>
+</tbody>
+</table>
+<dir-pagination-controls
+            max-size="5"
+            direction-links="true"
+            boundary-links="true" >
+        </dir-pagination-controls>
+</div>
+<a href="#!/home">Home</a>
