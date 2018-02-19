@@ -4,57 +4,52 @@
 app.controller('ClientController',function($scope,ClientService,$location,$rootScope,$cookieStore){
 	
 	$scope.login=function(){
-		console.log($scope.client)
+		/*console.log($scope.client)*/
 	ClientService.login($scope.client).then(function(response){
-		
-		console.log(response.data)
-		console.log(response.status)
-		$rootScope.currentClient=response.data//username
+		/*console.log(response.data)
+		console.log(response.status)*/
+		$rootScope.currentClient=response.data //username
 		$cookieStore.put('currentClient',response.data)
 		$location.path('/home')
 		
 	},function(response){
-	
-		$scope.error=response.data.message
-	
-	$location.path('/login')
+		console.log(response.data)
+		console.log(response.status)
+		if(response.status==401){
+			$scope.error=response.data
+			$location.path('/login')
+		}
 	})
 	}
-	if($rootScope.currentClient!=undefined){
-		ClientService.getusername($scope.client).then(function(response){
-			$scope.client=response.data
-		},function(response){
-			console.log(response.status)
-			if(response.status==401){
-				delete $rootScope.currentClient;
-				$cookieStore.remove('currentClient')
-				$location.path('/login')
 
-			}
-				
-			})
-		}
 	
 	function getlist(){
 		ClientService.getlist().then(function(response){
-             console.log(response.data)
-			console.log(response.status)
-			
+            /* console.log(response.data)
+			console.log(response.status)*/
 			$scope.newlead=response.data
             },function(response){
-            
-			$location.path('/login')
+            	console.log(response.data)
+    			console.log(response.status)
+            	if(response.status==401){
+    				$scope.error=response.data
+    				$location.path('/login')
+    			}
 		})
 		
 	}
 	function getatelist(){
 		ClientService.getatelist().then(function(response){
-             console.log(response.data)
-			console.log(response.status)			
+            /* console.log(response.data)
+			console.log(response.status)	*/		
 			$scope.ate=response.data
             },function(response){
-			
-			$location.path('/login')
+            	console.log(response.data)
+    			console.log(response.status)
+            	if(response.status==401){
+    				$scope.error=response.data
+    				$location.path('/login')
+    			}
 		})
 		
 	}
@@ -70,15 +65,16 @@ app.controller('ClientController',function($scope,ClientService,$location,$rootS
 		}
 	function bill(){
 		ClientService.bill().then(function(response){
-			console.log(response.data)
-			console.log(response.status)
-			$scope.clienta=response.data
-			console.log($scope.clienta)
+			/*console.log(response.data)
+			console.log(response.status)*/
+			$scope.client=response.data
+			console.log($scope.client)
 		
 		},function(response){
-			
-			console.log(response.data)
-				$location.path('/home')
+				if(response.status==401){
+				$scope.error=response.data
+				$location.path('/login')
+			}
 				})
 		}
 	
@@ -99,12 +95,13 @@ app.controller('ClientController',function($scope,ClientService,$location,$rootS
 			console.log(response.status)
 			$scope.complete=response.data
             },function(response){
-			
-			$location.path('/login')
+            	if(response.status==401){
+    				$scope.error=response.data
+    				$location.path('/login')
+    			}
 		})
 		
 	}
-	
 	
 bill()
 	getlist()

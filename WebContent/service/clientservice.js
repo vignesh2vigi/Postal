@@ -26,9 +26,9 @@ app.factory('ClientService',function($http){
 	{
 	return $http.put(BASE_URL+"/servlet/update",client)
 	}
-	clientService.bill=function(clienta)
+	clientService.bill=function(client)
 	{
-	return $http.get(BASE_URL+"/servlet/bill",clienta)
+	return $http.get(BASE_URL+"/servlet/bill",client)
 	}
 	clientService.getusername=function(client)
 	{

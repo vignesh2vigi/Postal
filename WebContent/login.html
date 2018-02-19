@@ -22,14 +22,16 @@
 <div class="login-wrapper">
       <div class="login-container">
         <h1>
-          <a href="#" title="Online auto Financial Platform"><img src="images/logo-icon.png"></a>
+          <a href="#" title="Postal"><img src="images/logo-icon.png"></a>
         </h1>
-        <form >
+        <form name="theForm">
           <div class="form-group">
-            <input class="form-control" ng-model="client.clientname" placeholder="Clientname" type="text">
+            <input class="form-control" ng-model="client.clientname" placeholder="Clientname" type="text" name="username" required>
+            <span class="error" ng-show="(theForm.$dirty||submitted) && theForm.username.$error.required">user name is required</span>
           </div>
           <div class="form-group">
-            <input class="form-control" ng-model="client.password"  placeholder="Password" type="text">
+            <input class="form-control" ng-model="client.password"  placeholder="Password" type="password" name="password" required>
+             <span class="error" ng-show="(theForm.$dirty||submitted) && theForm.password.$error.required">Password is required</span>
           </div>
 		  <div class="form-group">
 		  <button type="submit" ng-click="login()" class="submit-btn">Submit</button>

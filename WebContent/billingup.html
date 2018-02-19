@@ -1,13 +1,13 @@
 <form>
-<h2> online price={{clienta.online_price}}</h2>
-<h2> offline price={{clienta.offline_price}}</h2>
+<h2> online price={{client.online_price}}Rs/-</h2>
+<h2> offline price={{client.offline_price}}Rs/-</h2>
 <div>
 <label>Online price</label>
-    <input type="number"  ng-model="client.online_price"  placeholder="onlineprice" title="price"  />
+    <input type="number"  ng-model="client.online_price"  placeholder="{{client.online_price}}"  />
     </div>
     <div>
     <label>Offline price</label>
-    <input type="number" ng-model="client.offline_price" placeholder="offlineprice" title="price"  />
+    <input type="number" ng-model="client.offline_price" placeholder="{{client.offline_price}}" />
     </div>
   <button type="button" class="btn" ng-click="update()">Update</button>
 </form>

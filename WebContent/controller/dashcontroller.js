@@ -16,7 +16,10 @@ app.controller('DashController',function($scope,DashService,$location){
 			
 			console.log(response.status)
 			console.log(response.data)
+			if(response.status==401){
+				$scope.error=response.data
 				$location.path('/login')
+			}
 				})
 		}
     function leadprocess (){

@@ -48,20 +48,23 @@ app.run(function($rootScope,$cookieStore,$location,ClientService){
 			$rootScope.currentClient=$cookieStore.get('currentClient')
 		}
 		$rootScope.logout=function(){
+			
 		ClientService.logout().then(function(response){
 			delete $rootScope.currentClient;
+			console.log(response.status)
+			console.log(response.data)
 			$cookieStore.remove('currentClient')
 			$location.path('/login')
 			
 		},function(response){
-			console.log(response.status)
-			
-				delete $rootScope.currentUser;
-				$cookieStore.remove('currentUser')
+			if(response.status==401){
+				console.log(response.status)
+				console.log(response.data)
+				delete $rootScope.currentClient;
+				$cookieStore.remove('currentClient')
 				$location.path('/login')
 
-			
-			$location.path('/login')
+			}
 				
 		})
 	}
