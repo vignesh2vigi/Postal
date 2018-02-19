@@ -17,5 +17,5 @@ public interface ClientService {
 	public Client leadprocess(Client client);
 	public Client leadverify(Client client);
 	public Client leadnotverify(Client client);
-	public Client getusername(String clientname);
+	public List<Client> user();
 }

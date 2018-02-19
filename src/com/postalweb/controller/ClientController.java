@@ -44,8 +44,7 @@ public class ClientController {
 	 public ResponseEntity<Client> loglast(@RequestParam("file") MultipartFile file,HttpServletRequest request,
 				HttpServletResponse response,
 				javax.servlet.http.HttpSession session) {
-		System.out.println("excel==============="+file.toString());
-		System.out.println("excel==============="+file.getSize());		
+			
 		ArrayList<Hashtable<String, String>> al = new ArrayList<Hashtable<String, String>>();
 
 		Map<String, String> mp = new HashMap<String, String>();
@@ -226,7 +225,7 @@ public class ClientController {
 
 				if (rowcount != 0) {
 
-					ht.put("lead_id", clientid );
+					ht.put("lead_id", lead_id );
 
 					ht.put("clientid", clientid);
 
@@ -269,7 +268,8 @@ public class ClientController {
 
 				
 
-			}}
+			}
+			}
 			catch (Exception e){
 				System.out.println("erooorrrr=="+e);
 				
@@ -333,7 +333,7 @@ public class ClientController {
 			System.out.println("lead_created_date===="+lead_created_date);
 			System.out.println("lead_verified_date===="+lead_verified_date);
 			
-      String query1="insert into lead_details(clientid,first_name,last_name,gender,age,door_no,street_name,area_name,taluk,city,pincode,state,lead_created_by,lead_created_date,lead_verified_date)values('"+clientid+"','"+first_name+"','"+last_name+"','"+gender+"','"+age+"','"+door_no+"','"+street_name+"','"+area_name+"','"+taluk+"','"+city+"','"+pincode+"','"+state+"','"+lead_created_by+"','"+lead_created_date+"','"+lead_created_date+"')";
+      String query1="insert into lead_details(lead_id,clientid,first_name,last_name,gender,age,door_no,street_name,area_name,taluk,city,pincode,state,lead_created_by,lead_created_date,lead_verified_date)values('"+lead_id+"','"+clientid+"','"+first_name+"','"+last_name+"','"+gender+"','"+age+"','"+door_no+"','"+street_name+"','"+area_name+"','"+taluk+"','"+city+"','"+pincode+"','"+state+"','"+lead_created_by+"',NOW(),'"+lead_verified_date+"')";
 
 			System.out.println("query====="+query1);
 
@@ -366,13 +366,13 @@ System.out.println("count========="+i);
    
 			@RequestMapping(value = "/logout", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> logout(HttpSession session){
-		String username=(String)session.getAttribute("clientname");
-		System.out.println("Name of the user is"+ username);
-		if(username==null){
-			Error error=new Error(6,"Unauthorized access..please login..");
+		String clientname=(String)session.getAttribute("clientname");
+		System.out.println("Name of the user is"+ clientname);
+		if(clientname==null){
+			Error error=new Error(1,"Unauthorized access..please login..");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 		}
-		session.removeAttribute("username");
+		session.removeAttribute("clientname");
 		return new ResponseEntity<Client>(HttpStatus.OK);
 	}
 	
@@ -380,46 +380,51 @@ System.out.println("count========="+i);
 	public ResponseEntity<?> login(@RequestBody Client client,HttpSession session){
 		Client validUser=clientService.login(client);
 		if(validUser==null){
-			Error error=new Error(4," Invalid Username/Password...");
+			Error error=new Error(2," Invalid Username/Password...");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 		}
 	
-	
 		session.setAttribute("clientname", validUser.getClientname());
 		return new ResponseEntity<Client>(validUser,HttpStatus.OK);
+		
 	}
 	@RequestMapping(value="/getlist",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getlist( HttpSession session){
-		/*String clientname=(String)session.getAttribute("clientname");
+		String clientname=(String)session.getAttribute("clientname");
 		 if(clientname==null){
-			Error error=new Error(6,"Unauthorized access...");
+			Error error=new Error(3,"Unauthorized access...");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
-		}*/
+		}
 		 List<Client> list=clientService.list();
 		 return new ResponseEntity<List<Client>>(list,HttpStatus.OK);
 }
 	@RequestMapping(value="/getatelist",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getatelist( HttpSession session){
-		/*String clientname=(String)session.getAttribute("clientname");
+		String clientname=(String)session.getAttribute("clientname");
 		 if(clientname==null){
-			Error error=new Error(6,"Unauthorized access...");
+			Error error=new Error(4,"Unauthorized access...");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
-		}*/
+		}
 		 List<Client> atelist=clientService.atelist();
 		 return new ResponseEntity<List<Client>>(atelist,HttpStatus.OK);
 }
 	@RequestMapping(value="/complete",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> complete( HttpSession session){
-		/*String clientname=(String)session.getAttribute("clientname");
+		String clientname=(String)session.getAttribute("clientname");
 		 if(clientname==null){
-			Error error=new Error(6,"Unauthorized access...");
+			Error error=new Error(5,"Unauthorized access...");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
-		}*/
+		}
 		 List<Client> complete=clientService.complete();
 		 return new ResponseEntity<List<Client>>(complete,HttpStatus.OK);
 }
 	@RequestMapping(value= "/count",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<?> newlead(Client client,HttpSession session) {
+		String clientname=(String)session.getAttribute("clientname");
+		 if(clientname==null){
+			Error error=new Error(5,"Unauthorized access...");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
+		}
 			Client yet=clientService.leadcount(client);
 			return new ResponseEntity<Client>(yet,HttpStatus.OK);
 		}
@@ -431,7 +436,6 @@ System.out.println("count========="+i);
 		}
 	@RequestMapping(value= "/process",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<?> leadprocess(Client client,HttpSession session) {
-		System.out.println("hi================");
 			Client yet=clientService.leadprocess(client);
 			return new ResponseEntity<Client>(yet,HttpStatus.OK);
 		}
@@ -447,13 +451,17 @@ System.out.println("count========="+i);
 		}
 	@RequestMapping(value= "/bill",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<?> bill(Client client,HttpSession session) {
+		String clientname=(String)session.getAttribute("clientname");
+		 if(clientname==null){
+			Error error=new Error(5,"Unauthorized access...");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
+		}
 			Client yet=clientService.bill(client);
 			return new ResponseEntity<Client>(yet,HttpStatus.OK);
 		}
-	@RequestMapping(value= "/username",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	 public ResponseEntity<?>getusername(HttpSession session, String username) {
-		System.out.println("username=========="+username);
-			Client yet=clientService.getusername(username);
-			return new ResponseEntity<Client>(yet,HttpStatus.OK);
-		}
+	/*@RequestMapping(value= "/username",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	 public ResponseEntity<?> user (HttpSession session) {
+			List<Client> user=clientService.user();
+			return new ResponseEntity<List<Client>>(user,HttpStatus.OK);
+		}*/
 }

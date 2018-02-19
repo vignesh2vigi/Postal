@@ -68,10 +68,11 @@ public class ClientServiceImpl implements ClientService {
 		return clientDao.bill(client);
 	}
 	@Override
-	public Client getusername(String clientname) {
+	public List<Client> user() {
 		// TODO Auto-generated method stub
-		return clientDao.getusername(clientname);
+		return clientDao.user();
 	}
+	
 	
 	
 

@@ -24,6 +24,6 @@ public interface ClientDao {
 	
 	public Client update(Client client);
 	
-	public Client getusername(String clientname);
+	public List<Client> user();
 	
 }

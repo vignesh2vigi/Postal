@@ -218,7 +218,7 @@ public class ClientDaoImpl implements ClientDao {
 				outob.setFirstName(resultSet.getString("first_name"));
 				outob.setAreaName(resultSet.getString("area_name"));
 				String city=resultSet.getString("city");
-				System.out.println("city========="+city);
+				
 				String query_cityname = "SELECT city_name FROM master_cities WHERE city_id='"+city+"'";
 				
 				preparedStatement = connection.prepareStatement(query_cityname);
@@ -289,7 +289,7 @@ public class ClientDaoImpl implements ClientDao {
 				outob.setFirstName(resultSet.getString("first_name"));
 				outob.setAreaName(resultSet.getString("area_name"));
 				String city=resultSet.getString("city");
-				/*System.out.println("city=1========"+city);*/
+			
 				String query_cityname = "SELECT city_name FROM master_cities WHERE city_id='"+city+"'";
 				
 				preparedStatement = connection.prepareStatement(query_cityname);
@@ -342,6 +342,7 @@ public class ClientDaoImpl implements ClientDao {
 		return atelist;
 
 	}
+	@SuppressWarnings("resource")
 	@Override
 	public List<Client> complete() {
 		// TODO Auto-generated method stub
@@ -362,7 +363,7 @@ public class ClientDaoImpl implements ClientDao {
 				outob.setFirstName(resultSet.getString("first_name"));
 				outob.setAreaName(resultSet.getString("area_name"));
 				String city=resultSet.getString("city");
-				System.out.println("city2========="+city);
+				
 				String query_cityname = "SELECT city_name FROM master_cities WHERE city_id='"+city+"'";
 				
 				preparedStatement = connection.prepareStatement(query_cityname);
@@ -374,7 +375,17 @@ public class ClientDaoImpl implements ClientDao {
 				
 				rs_statename.close();
 				outob.setPincode(resultSet.getString("pincode"));
-				outob.setState(resultSet.getString("state"));
+				String state=resultSet.getString("state");
+				String query_statename = "SELECT state_name FROM master_states WHERE state_id='"+state+"'";
+				
+				preparedStatement = connection.prepareStatement(query_statename);
+			
+				ResultSet rs_cityname = preparedStatement.executeQuery();				
+				if (rs_cityname.next()) {
+					outob.setStatename(rs_cityname.getString("state_name"));
+				}
+				
+				rs_cityname.close();
 				outob.setLead_created_date(resultSet.getDate("lead_created_date"));
 			String lead=resultSet.getString("lead_status");
 				if(lead.equals("3")){
@@ -511,9 +522,6 @@ public class ClientDaoImpl implements ClientDao {
 			stmt = con.createStatement();
 			
 		String postal_area_address_query="SELECT lead_status FROM lead_details WHERE lead_status ='2'";
-			
-			 System.out.println("postal_address:" + postal_area_address_query);
-
 			 rs = stmt.executeQuery(postal_area_address_query);
 
 			 boolean last = rs.last();
@@ -809,13 +817,13 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	@Override
-	public Client getusername(String clientname) {
+	public List<Client> user() {
 		// TODO Auto-generated method stub
-		
+
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
-		Client client = new Client();
+		List<Client> users = new ArrayList<>();
 		try {
 			
 			String us="SELECT clientname FROM client_login_details";
@@ -825,19 +833,32 @@ public class ClientDaoImpl implements ClientDao {
 		
 
 			 resultSet = preparedStatement.executeQuery();				
-			if (resultSet.next()) {
-
+			while(resultSet.next()) {
+				Client client = new Client();
 				client.setClientname(resultSet.getString("clientname"));
+				users.add(client);
+				
 			}
 			
-			resultSet.close();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 		
-		return client;
+		return users;
+		
 	}
+
 
 	
 
